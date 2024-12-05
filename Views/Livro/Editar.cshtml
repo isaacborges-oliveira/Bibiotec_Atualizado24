@@ -1,7 +1,7 @@
 <main class="container-main">
     <div class="box-conteudo">
         <h1>Editar o Livro</h1>
-        <form method="post">
+        <form method="post" action="@Url.Action("Atualizar", new {id = ViewBag.Livro.LivroID})" enctype="multipart/form-data">
             <div class="form-linha">
                 <div class="form-group-name">
                     <label class="form-label" for="Nome">Nome</label>
@@ -19,17 +19,18 @@
             <div class="form-linha">
                 <div class="form-group">
                     <label class="form-label" for="Escritor">Escritor</label>
-                    <input type="text" name="Escritor" class="form-input" placeholder=""
-                        value="@ViewBag.Livro.Escritor">
+                    <input type="text" name="Escritor" class="form-input" placeholder="" value="@ViewBag.Livro.Escritor">
                 </div>
 
                 <div class="form-group">
                     <label class="form-label" for="Idioma">Idioma</label>
-                    <input type="text" name="Idioma" class="form-input" placeholder="" value="@ViewBag.Livro.Idioma">
+                    <input type="text" name="Idioma" class="form-input" placeholder=""
+                    value="@ViewBag.Livro.Idioma">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="Editora">Editora</label>
-                    <input type="text" name="Editora" class="form-input" placeholder="" value="@ViewBag.Livro.Editora">
+                    <input type="text" name="Editora" class="form-input" placeholder=""
+                    value="@ViewBag.Livro.Editora">
                 </div>
             </div>
 
@@ -37,31 +38,24 @@
                 <div class="form-group">
                     <label class="form-label" for="categoria">Categoria</label>
                     <ul>
-                        @* *@
-
-                        @foreach (var categorias in ViewBag.CategoriasDoSistema)
-                        {
-                            @* *@
-                            bool checksave = false;
-                            @foreach (var categoriasDoLivro in ViewBag.Categoria)
-                            {
-
-                                if (categoriasDoLivro.CategoriaID == categorias.CategoriaID)
-                                {
-                                    checksave = true;
+                        @* Percorrer TODAS as categorias do meu sistema -> 13 categorias *@
+                        @foreach(var categorias in ViewBag.CategoriasDoSistema){
+                            @* Percorrer as categoriasDoLivro e verificará qual pertence ao livro selecionado *@
+                            bool checkSave = false;
+                            @foreach(var categoriasDoLivro in ViewBag.Categoria){
+                                //Verificação se o ID da categoria Ação pertence ao Livro Selecionado
+                                //Por exemplo:A categoria ação está presente na categorias do livro????
+                                if(categoriasDoLivro.CategoriaID == categorias.CategoriaID){
+                                    //É VERDADE 
+                                    checkSave = true;
                                     break;
-
                                 }
-
-
-
                             }
                             <li>
-                                <input name="Categoria" type="checkbox" value=" @categorias.CategoriaID" checked @(checksave ? "checked" : null) >
+                                <input name="Categoria" type="checkbox" value="@categorias.CategoriaID" checked="@(checkSave ? "checked" : null)" >
                                 <label class="form-label-categoria" for="Categoria">@categorias.Nome</label>
                             </li>
                         }
-
                     </ul>
                 </div>
             </div>
